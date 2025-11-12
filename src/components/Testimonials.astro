@@ -1,0 +1,187 @@
+---
+const testimonials = [
+  {
+    name: 'Aditya Tyagi',
+    role: 'PHD Applicant',
+    image: '/images/arun.webp',
+    feedback:
+      'I hired Arun for editing academic writing. He did a tremendous job by making my writing effective and more lucid. While doing my work, he also gave me valuable pointers to make my writing more concise without losing the core meaning of it. Highly recommended.',
+  },
+  {
+    name: 'John Fen Raju',
+    role: 'Psychotherapist',
+    image: '/images/arun.webp',
+    feedback:
+      'I would highly recommend Arun as a linguist with exceptional expertise in academic writing and qualitative research. I have had the privilege of collaborating with Arun on numerous occasions, and I can attest to his outstanding skills and professionalism. Arun possesses a remarkable skill set and deep expertise in academic writing and qualitative research, which have greatly benefited me personally in my own research endeavours. His contributions have consistently elevated the quality of my work. What sets Arun apart is not only his expertise, but also his unwavering commitment to punctuality, integrity, and superior quality in all aspects of his work. He consistently delivers results on time, demonstrating a strong sense of reliability and accountability.',
+  },
+  {
+    name: 'Author',
+    role: 'MDPI',
+    image: '/images/arun.webp',
+    feedback:
+      'We sincerely thank [Arun] for significantly improving the quality of our manuscript, which greatly contributed to its acceptance.',
+  },
+]
+
+// Truncation helpers
+const MAX_CHARS = 260
+function truncateAtWord(text, limit = MAX_CHARS) {
+  if (!text || typeof text !== 'string')
+    return { short: text, truncated: false }
+  if (text.length <= limit) return { short: text, truncated: false }
+  let slice = text.slice(0, limit)
+  const lastSpace = slice.lastIndexOf(' ')
+  if (lastSpace > 0) {
+    slice = slice.slice(0, lastSpace)
+  }
+  return { short: slice + '…', truncated: true }
+}
+
+const items = testimonials.map(t => {
+  const { short, truncated } = truncateAtWord(t.feedback, MAX_CHARS)
+  return { ...t, shortFeedback: short, truncated }
+})
+---
+
+<section class='py-16 px-4'>
+  <div class='max-w-7xl mx-auto'>
+    <h2 class='text-3xl font-semibold text-slate-700 text-center mb-12'>
+      Testimonials
+    </h2>
+    <div class='grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+      {
+        items.map((testimonial, idx) => (
+          <div class='bg-white p-6 shadow hover:shadow-lg transition-shadow duration-300'>
+            <div class='flex items-center mb-4'>
+              <img
+                src={testimonial.image}
+                alt={testimonial.name}
+                class='w-16 h-16 rounded-full mr-4 object-cover'
+              />
+              <div>
+                <h3 class='text-xl font-semibold text-slate-700'>
+                  {testimonial.name}
+                </h3>
+                <p class='text-xs text-slate-500'>{testimonial.role}</p>
+              </div>
+            </div>
+            <div class='text-slate-600 italic relative'>
+              <div
+                id={`short-${idx}`}
+                class='testimonial-short overflow-hidden transition-all duration-300 ease-in-out'
+                style='max-height:6rem'>
+                <span class='block'>“ {testimonial.shortFeedback} ”</span>
+              </div>
+              <div
+                id={`full-${idx}`}
+                class='testimonial-full overflow-hidden transition-all duration-300 ease-in-out hidden'
+                style='max-height:0'>
+                <span class='block opacity-0 transition-opacity duration-300'>
+                  “ {testimonial.feedback} ”
+                </span>
+              </div>
+            </div>
+            {testimonial.truncated && (
+              <button
+                class='mt-3 text-sky-700 text-sm font-medium hover:underline focus:outline-none'
+                data-idx={idx}
+                aria-expanded='false'
+                aria-controls={`short-${idx} full-${idx}`}
+                type='button'>
+                Read more
+              </button>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const buttons = document.querySelectorAll('button[data-idx]')
+
+    // Initialize collapsed heights for truncated items
+    buttons.forEach(btn => {
+      const idx = btn.getAttribute('data-idx')
+      const shortWrap = document.getElementById(`short-${idx}`)
+      if (shortWrap) {
+        const shortSpan = shortWrap.querySelector('span')
+        if (shortSpan) {
+          shortWrap.style.maxHeight = shortSpan.scrollHeight + 'px'
+        }
+      }
+    })
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = btn.getAttribute('data-idx')
+        const shortWrap = document.getElementById(`short-${idx}`)
+        const fullWrap = document.getElementById(`full-${idx}`)
+        if (!shortWrap || !fullWrap) return
+        const expanded = btn.getAttribute('aria-expanded') === 'true'
+
+        const fullSpan = fullWrap.querySelector('span')
+        const shortSpan = shortWrap.querySelector('span')
+
+        if (expanded) {
+          // Collapse to short without over/undershooting
+          // 1) Calculate target short height
+          const sSpan = shortWrap.querySelector('span')
+          const shortH = sSpan ? sSpan.scrollHeight : 0
+          // 2) Temporarily overlay short content (absolute) so it doesn't affect layout
+          shortWrap.classList.remove('hidden')
+          shortWrap.style.position = 'absolute'
+          shortWrap.style.left = '0'
+          shortWrap.style.right = '0'
+          shortWrap.style.maxHeight = shortH + 'px'
+          if (sSpan) sSpan.classList.remove('opacity-0')
+          // 3) Fade out full text and animate full wrap to short height
+          fullSpan && fullSpan.classList.add('opacity-0')
+          requestAnimationFrame(() => {
+            fullWrap.style.maxHeight = shortH + 'px'
+          })
+          // 4) After animation, hide full and clean up short positioning
+          setTimeout(() => {
+            fullWrap.classList.add('hidden')
+            fullWrap.style.maxHeight = '0'
+            shortWrap.style.position = ''
+            shortWrap.style.left = ''
+            shortWrap.style.right = ''
+            // Ensure short text remains visible with proper height
+            const sSpan = shortWrap.querySelector('span')
+            shortWrap.style.maxHeight = (sSpan ? sSpan.scrollHeight : 0) + 'px'
+            btn.setAttribute('aria-expanded', 'false')
+            btn.textContent = 'Read more'
+          }, 300)
+        } else {
+          // Expand to full without initial shrink
+          // 1) Temporarily overlay the short content so it doesn't affect layout height
+          shortWrap.style.position = 'absolute'
+          shortWrap.style.left = '0'
+          shortWrap.style.right = '0'
+          // 2) Reveal full block and start from the short height
+          fullWrap.classList.remove('hidden')
+          const shortH = shortSpan ? shortSpan.scrollHeight : 0
+          const fullH = fullSpan ? fullSpan.scrollHeight : 0
+          fullWrap.style.maxHeight = shortH + 'px'
+          // 3) Cross-fade text and animate height to full
+          shortSpan && shortSpan.classList.add('opacity-0')
+          requestAnimationFrame(() => {
+            fullWrap.style.maxHeight = fullH + 'px'
+            fullSpan && fullSpan.classList.remove('opacity-0')
+          })
+          // 4) After the animation, hide the short block and clean up inline styles
+          setTimeout(() => {
+            shortWrap.classList.add('hidden')
+            shortWrap.style.position = ''
+            shortWrap.style.left = ''
+            shortWrap.style.right = ''
+            btn.setAttribute('aria-expanded', 'true')
+            btn.textContent = 'Show less'
+          }, 300)
+        }
+      })
+    })
+  })
+</script>

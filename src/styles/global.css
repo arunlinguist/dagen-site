@@ -1,0 +1,6 @@
+@import "tailwindcss";
+.cursive {
+  font-family: "Momo Signature", cursive;
+  font-weight: 400;
+  font-style: normal;
+}

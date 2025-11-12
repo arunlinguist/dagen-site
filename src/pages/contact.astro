@@ -1,0 +1,15 @@
+---
+import Header from '@components/Header.astro'
+import '../styles/global.css'
+import Layout from '@layouts/Layout.astro'
+import Contact from '@components/Contact.tsx'
+---
+
+<Layout title='Contact'>
+  <section
+    id='contact-form-container'
+    class='min-h-[calc(100dvh-250px)] flex flex-col items-center justify-center bg-gray-100 px-4'
+  >
+    <Contact client:load />
+  </section>
+</Layout>
