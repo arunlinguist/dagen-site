@@ -1,0 +1,41 @@
+---
+import Welcome from '../components/Welcome.astro'
+import Layout from '../layouts/Layout.astro'
+import Header from '../components/Header.astro'
+import '../styles/global.css'
+import Testimonials from '@components/Testimonials.astro'
+---
+
+<Layout title='Arun'>
+  <section
+    id='hero'
+    class='py-16 px-4 bg-linear-to-b from-slate-50 to-slate-200'
+  >
+    <div
+      id='avatar'
+      class='rounded-full shadow w-50 h-50 mx-auto border-4 border-slate-200 overflow-hidden hover:scale-120 transition-transform duration-300 mb-8'
+    >
+      <img
+        class='size-fit'
+        src='/images/arun.webp'
+        alt='Description of image'
+      />
+    </div>
+    <h2 class='text-center font-semibold text-slate-700 text-3xl mb-8'>
+      Hey There!
+    </h2>
+    <p class='text-center max-w-120 mx-auto'>
+      I'm Arun and I'm passionate about writing, editing, and exploring the
+      fascinating world of applied linguistics. I love helping people express
+      their ideas clearly and refine their writing while staying true to their
+      unique voice. Learn more about what I do
+      <a
+        href='https://www.notion.so/Services-29b4cc2bd87e80b6bc30c5cf408370d5?pvs=21'
+        class='text-sky-600 hover:text-sky-400 hover:underline'
+      >
+        here
+      </a>
+    </p>
+  </section>
+  <Testimonials />
+</Layout>
