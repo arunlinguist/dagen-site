@@ -15,17 +15,17 @@
       <div class='hidden md:flex md:items-center md:space-x-2 font-semibold'>
         <a
           href='/about'
-          class='group py-1 px-2 transition-colors duration-300 hover:bg-sky-600 rounded text-slate-700 group-hover:text-white'
+          class='group py-1 px-2 transition-colors duration-300 hover:bg-sky-600 hover:text-white rounded text-slate-700 group-hover:text-white'
           >About</a
         >
         <a
           href='/services'
-          class='group py-1 px-2 transition-colors duration-300 hover:bg-sky-600 rounded text-slate-700 group-hover:text-white'
+          class='group py-1 px-2 transition-colors duration-300 hover:bg-sky-600 rounded hover:text-white text-slate-700 group-hover:text-white'
           >Services</a
         >
         <a
           href='/contact'
-          class='group py-1 px-2 transition-colors duration-300 hover:bg-sky-600 rounded text-slate-700 group-hover:text-white'
+          class='group py-1 px-2 transition-colors duration-300 hover:bg-sky-600 rounded hover:text-white text-slate-700 group-hover:text-white'
           >Contact</a
         >
       </div>
@@ -109,10 +109,8 @@
         const expanded = btn.getAttribute('aria-expanded') === 'true'
         btn.setAttribute('aria-expanded', String(!expanded))
         if (menu) {
-          // toggle max-height for smooth grow/shrink
           menu.classList.toggle('max-h-0')
           menu.classList.toggle('max-h-60')
-          // toggle vertical padding to animate inner spacing
           menu.classList.toggle('pt-2')
           menu.classList.toggle('pb-3')
         }

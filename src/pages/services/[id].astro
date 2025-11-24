@@ -1,0 +1,76 @@
+---
+import Layout from '@layouts/Layout.astro'
+import '../../styles/global.css'
+
+
+// Export getStaticPaths to generate all service pages at build time
+export async function getStaticPaths() {
+  const servicesData: Record<string, { title: string; description: string; image: string }> = {
+  'college-applications': {
+    title: 'College Applications',
+    description: "Expert guidance for college application essays and personal statements. I help you craft compelling narratives that showcase your unique voice and highlight your strengths to admissions committees. From brainstorming initial ideas to polishing final drafts, I provide comprehensive support throughout the application process. Together, we'll create authentic, impactful essays that set you apart and increase your chances of admission.",
+    image: '/icons/application.png'
+  },
+  'funding': {
+    title: 'Apply for Funding',
+    description: "Comprehensive support for scholarship applications and funding opportunities. I assist with writing persuasive proposals that effectively communicate your goals and justify financial support. Whether you're applying for undergraduate scholarships, graduate funding, or research grants, I help you articulate your needs clearly and demonstrate your potential impact. My goal is to help you present a compelling case that resonates with funding committees.",
+    image: '/icons/funding.png'
+  },
+  'writing-assignments': {
+    title: 'Writing Assignments',
+    description: 'Professional writing and editing assistance for academic assignments. Whether you need help structuring arguments, refining your prose, or meeting formatting requirements, I provide tailored support. I work with essays, research papers, case studies, and other academic documents to improve clarity, coherence, and academic tone. My approach focuses on helping you develop your own voice while meeting academic standards and assignment criteria.',
+    image: '/icons/assignment.png'
+  },
+  'research-paper-editing': {
+    title: 'Research Paper Editing',
+    description: 'Professional editing services for academic papers, journals, and research publications. I help refine your writing, improve clarity, and ensure your work meets publication standards. Whether you need structural editing, copy editing, or proofreading, I provide comprehensive support to elevate your academic writing.',
+    image: '/icons/edit.png'
+  },
+  'funding-proposals': {
+    title: 'Funding Proposals',
+    description: 'Strategic assistance for research funding proposals and grant applications. I help structure compelling narratives that clearly articulate your research goals and demonstrate the significance of your work. From developing research questions to crafting budget justifications, I provide comprehensive support for all aspects of proposal writing. My expertise helps you communicate complex research ideas clearly and persuasively to funding bodies and review committees.',
+    image: '/icons/funding.png'
+  },
+  'presentations': {
+    title: 'Presentations',
+    description: "Support for creating and refining academic and professional presentations. I help organize content, develop clear narratives, and ensure your message resonates with your intended audience effectively. Whether you're preparing conference presentations, thesis defenses, or professional pitches, I assist with structuring your content, crafting engaging narratives, and developing compelling visual storytelling. Together, we'll create presentations that inform, persuade, and inspire.",
+    image: '/icons/presentation.png'
+  },
+  'job-applications': {
+    title: 'Job Applications',
+    description: 'Professional assistance with CVs, cover letters, and job application materials. I help you present your qualifications compellingly and tailor your applications to specific opportunities and requirements. From highlighting relevant experience to crafting persuasive cover letters that showcase your unique value, I provide comprehensive support throughout your job search. My goal is to help you stand out in competitive job markets and secure interviews that lead to opportunities.',
+    image: '/icons/job.png'
+  }
+};
+  return Object.keys(servicesData).map((id) => ({
+    params: { id },
+    props: { service: servicesData[id] },
+  }));
+}
+
+// Get the service data from props
+const { service } = Astro.props;
+---
+
+<Layout title={service.title}>
+  <div class='px-4 lg:px-12 py-12 max-w-4xl mx-auto'>
+    <div class='mb-8'>
+      <a href='/services' class='text-sky-600 hover:text-sky-800 hover:underline'>
+        ← Back to Services
+      </a>
+    </div>
+    
+    <div class='flex flex-col md:flex-row gap-8 items-center md:items-start'>
+      <img 
+        src={service.image} 
+        alt={service.title} 
+        class='w-32 h-32 object-contain'
+      />
+      <div class='flex-1'>
+        <h1 class='text-4xl font-bold text-slate-700 mb-4'>{service.title}</h1>
+        <p class='text-lg text-gray-600 leading-relaxed'>{service.description}</p>
+      </div>
+    </div>
+  </div>
+</Layout>
+

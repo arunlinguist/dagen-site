@@ -155,23 +155,19 @@ const items = testimonials.map(t => {
             btn.textContent = 'Read more'
           }, 300)
         } else {
-          // Expand to full without initial shrink
-          // 1) Temporarily overlay the short content so it doesn't affect layout height
           shortWrap.style.position = 'absolute'
           shortWrap.style.left = '0'
           shortWrap.style.right = '0'
-          // 2) Reveal full block and start from the short height
           fullWrap.classList.remove('hidden')
           const shortH = shortSpan ? shortSpan.scrollHeight : 0
           const fullH = fullSpan ? fullSpan.scrollHeight : 0
-          fullWrap.style.maxHeight = shortH + 'px'
-          // 3) Cross-fade text and animate height to full
+          fullWrap.style.maxHeight = shortH + 'px'      
           shortSpan && shortSpan.classList.add('opacity-0')
           requestAnimationFrame(() => {
             fullWrap.style.maxHeight = fullH + 'px'
             fullSpan && fullSpan.classList.remove('opacity-0')
           })
-          // 4) After the animation, hide the short block and clean up inline styles
+         
           setTimeout(() => {
             shortWrap.classList.add('hidden')
             shortWrap.style.position = ''
