@@ -1,0 +1,115 @@
+---
+import Layout from '@layouts/Layout.astro'
+import Hero from '@components/Hero.astro'
+import FAQSection from '@components/FAQSection.astro'
+import '../styles/global.css'
+
+const faqItems = [
+  {
+    question: 'What do your charges look like?',
+    answer:
+      '<p>My pricing varies depending on the type and scope of work. I offer competitive rates for editing, writing coaching, and consultation services. For detailed pricing information, please contact me directly.</p>',
+    id: 'answer1',
+  },
+  {
+    question: "I can't afford to pay for your services. What can I do?",
+    answer:
+      '<p>If you are a student or a person on a low income, I offer a discount on my services. Please contact me directly to discuss your needs and I will be happy to help you.</p>',
+    id: 'answer2',
+  },
+  {
+    question: 'Are you hiring?',
+    answer:
+      '<p>I am currently not hiring for any positions. However, I am always open to new opportunities and collaborations. If you have a project in mind, feel free to contact me.</p>',
+    id: 'answer3',
+  },
+  {
+    question: 'Why should I hire you when AI can do this for me?',
+    answer:
+      '<p>While AI can perform certain tasks, it lacks the human touch and understanding of context that only a professional editor can provide. AI tools are great for basic formatting and grammar corrections, but they cannot replace the nuanced analysis and creative touch that a skilled editor brings to the table. I am trained to understand the nuances of language and the context of the text, and I can provide a more nuanced and effective editing service.</p>',
+    id: 'answer4',
+  },
+  {
+    question: 'What is your educational background?',
+    answer:
+      'I have an MSc in Applied Linguistics from Oxford University (2021–22) and a BA in Social Sciences and Humanities from Ambedkar University Delhi (2016–19). My schooling was conducted at Rishi Valley School (2010–16).',
+    id: 'answer5',
+  },
+  {
+    question: 'What languages do you speak?',
+    answer:
+      '<p>I speak Tamil, English, and Hindi, and am in the process of learning German via Duolingo.</p>',
+    id: 'answer6',
+  },
+  {
+    question: 'Which colleges/universities have you studied at?',
+    answer:
+      '<h6 class="font-bold text-slate-700">Undergrad:</h6><ul><li>BA English, BA Social Sciences and Humanities @ Ambedkar University Delhi (2016)</li><li>BA History @ Shiv Nadar University (2016)</li></ul><h6 class="font-bold text-slate-700 mt-4">Postgrad:</h6><ul><li>MSc Development Studies @ Azim Premji University (2020)</li><li>MA Linguistics @ SOAS University of London (2020)</li><li>MSc Applied Linguistics and Second Language Acquisition @ University of Oxford (2021)</li></ul><h6 class="font-bold text-slate-700 mt-4">DOCTORATE:</h6><ul><li>PhD Linguistics @ Queen Mary University of London (2023, 2024)</li><li>PhD Linguistics @ Manchester Metropolitan University (2023)</li></ul>',
+    id: 'answer7',
+  },
+  {
+    question:
+      'Where have your clients applied to?',
+    answer:
+      '<h6 class="text-slate-700 font-bold">Here is a non exhaustive list:</h6> University of Oxford, University of Edinburgh, University of Nottingham, University of Galway, London School of Economics, USC Anneberg, Azim Premji University, Krea University, University of Milan and University of Copenhagen </h6>',
+    id: 'answer8',
+  },
+  {
+    question:
+      'Can you help me find resources as a foreign student in a Western country?',
+    answer:
+      '<p>Having lived in the UK, I can help you find resources for that country. I could also ask my contacts to help you find resources if you are in another country.</p>',
+    id: 'answer9',
+  },{
+    question:'What academic referencing systems are you familiar with?',
+    answer:'<p>I am familiar with the APA, MLA, and Harvard referencing systems. You can find links for relevant training materials on my website. If the journal you are submitting a paper to has its own standards, I would be happy to learn them and edit your work accordingly.</p>',
+    id: 'answer10',
+  },{
+    question:'How are you qualified to edit my work?',
+    answer:'<p>It’s true that I have not yet enrolled in a PhD program. This has been due to both academic and financial limitations: it’s been difficult to find supervisors who share my research interests, and funding applications for compatible universities are very competitive. However, this does not mean that I am not qualified (or, to use that controversial word, ‘meritorious’). Not only do I have a strong academic record but I have also been granted PhD admissions to two UK universities (Queen Mary University of London and Manchester Metropolitan University) and shortlisted for three prestigious studentships (LISS-DTP, LAHP-DTP, and the QM Principal Studentship). Every potential supervisor I have contacted has shown immediate interest in my work. Moreover, I already have two publications under my belt, the results of collaborating with international colleagues.</p><p class="my-4">I may not have a Dr before my name, but I believe my experience, initiative, and networking skills showcase my expertise.</p><p>As for not being an expert in your field: that is probably true as well. This is why I do not offer to academically review your work but only to edit it, fine-tune it for publication. As a researcher, your primary focus is on reviewing the literature, conducting new studies, and interpreting your results: content. My focus, as an editor, is presentation: making sure that your hard work is shared with the world in as clear a manner as possible.</p><p class="my-4">Having studied linguistics, I am very aware of the nuances of meaning that must be preserved when refining any given text. This awareness has been foundational to my career as an academic English editor. This is why I have been able to edit research papers covering a wide range of topics—from the biochemical properties of rare Andean herbs to pre-Confucian Chinese philosophy to clinical trials for anticancer drugs. A good language editor treats their work not as clay to be molded but as a diamond to be polished.</p>',
+    id: 'answer11',
+  },{
+    question:'Am I good enough to be published?',
+    answer:'<p>First of all, I would encourage you to never question your worth as a researcher. Research is a competitive field, and often, it can feel like fighting an uphill battle against systems that slow your progress. A lot of interesting and novel research remains unrecognised despite all the diligence and passion invested into it.</p><p>That being said, whether or not you get published will depend on a number of factors:</p><ol class="list-decimal ml-4"><li class="mt-2">What your research is contributing to your field.</li><li>Your relationships with institutions and other researchers.</li><li>The requirements of the journal to which you are sending your paper.</li><li class="mb-2">The clarity of your writing and presentation.</li></ol><p>I cannot control the outcome, i.e., whether or not your work gets published. However, I can help you increase your chances by giving you feedback on point 4.</p>',
+    id: 'answer12',
+  }
+]
+---
+
+<Layout title='FAQ'>
+  <Hero title='FAQ' image='/images/faq.jpg' alt='FAQ page Cover Image' />
+  <section id='faq-content' class='px-4 lg:px-12 py-12'>
+    <h2 class='text-2xl font-bold text-center text-slate-700 mb-8'>
+      Let's Clear the Confusion
+    </h2>
+    <FAQSection title='General' items={faqItems.slice(0, 4)} />
+    <div class='mt-8'>
+      <FAQSection title='Students' items={faqItems.slice(4, 9)} />
+    </div>
+    <div class='mt-8'>
+      <FAQSection title='Researchers' items={faqItems.slice(9, 13)} />
+    </div>
+  </section>
+</Layout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelectorAll('button[data-target]')
+
+    buttons.forEach(button => {
+      button.addEventListener('click', function () {
+        const targetId = this.getAttribute('data-target')
+        const answerDiv = document.getElementById(targetId)
+        const icon = this.querySelector('.toggle-icon')
+
+        if (answerDiv && icon) {
+          const isHidden = answerDiv.classList.contains('hidden')
+          answerDiv.classList.toggle('hidden')
+
+          icon.style.transform = isHidden ? 'rotate(45deg)' : 'rotate(0deg)'
+          icon.style.transition = 'transform 0.2s ease'
+        }
+      })
+    })
+  })
+</script>

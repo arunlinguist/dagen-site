@@ -1,0 +1,21 @@
+---
+const { title, image, alt = 'Hero Image' } = Astro.props;
+---
+
+<div
+  id='image-container'
+  data-dark-section
+  class='relative block w-full max-h-[500px] overflow-hidden'
+>
+  <img
+    src={image}
+    alt={alt}
+    class='w-full h-auto object-fill'
+  />
+  <div
+    id='overlay'
+    class='absolute top-0 left-0 w-full h-full items-center flex justify-center bg-black/80'
+  >
+    <h1 class='items-center font-bold text-4xl text-slate-300'>{title}</h1>
+  </div>
+</div>

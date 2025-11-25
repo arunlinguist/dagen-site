@@ -1,76 +1,251 @@
 ---
 import Layout from '@layouts/Layout.astro'
 import '../../styles/global.css'
-
+import { marked } from 'marked'
+import fs from 'fs'
+import path from 'path'
 
 // Export getStaticPaths to generate all service pages at build time
 export async function getStaticPaths() {
+  // Service metadata (for titles, descriptions, etc.)
   const servicesData: Record<string, { title: string; description: string; image: string }> = {
-  'college-applications': {
-    title: 'College Applications',
-    description: "Expert guidance for college application essays and personal statements. I help you craft compelling narratives that showcase your unique voice and highlight your strengths to admissions committees. From brainstorming initial ideas to polishing final drafts, I provide comprehensive support throughout the application process. Together, we'll create authentic, impactful essays that set you apart and increase your chances of admission.",
-    image: '/icons/application.png'
-  },
-  'funding': {
-    title: 'Apply for Funding',
-    description: "Comprehensive support for scholarship applications and funding opportunities. I assist with writing persuasive proposals that effectively communicate your goals and justify financial support. Whether you're applying for undergraduate scholarships, graduate funding, or research grants, I help you articulate your needs clearly and demonstrate your potential impact. My goal is to help you present a compelling case that resonates with funding committees.",
-    image: '/icons/funding.png'
-  },
-  'writing-assignments': {
-    title: 'Writing Assignments',
-    description: 'Professional writing and editing assistance for academic assignments. Whether you need help structuring arguments, refining your prose, or meeting formatting requirements, I provide tailored support. I work with essays, research papers, case studies, and other academic documents to improve clarity, coherence, and academic tone. My approach focuses on helping you develop your own voice while meeting academic standards and assignment criteria.',
-    image: '/icons/assignment.png'
-  },
-  'research-paper-editing': {
-    title: 'Research Paper Editing',
-    description: 'Professional editing services for academic papers, journals, and research publications. I help refine your writing, improve clarity, and ensure your work meets publication standards. Whether you need structural editing, copy editing, or proofreading, I provide comprehensive support to elevate your academic writing.',
-    image: '/icons/edit.png'
-  },
-  'funding-proposals': {
-    title: 'Funding Proposals',
-    description: 'Strategic assistance for research funding proposals and grant applications. I help structure compelling narratives that clearly articulate your research goals and demonstrate the significance of your work. From developing research questions to crafting budget justifications, I provide comprehensive support for all aspects of proposal writing. My expertise helps you communicate complex research ideas clearly and persuasively to funding bodies and review committees.',
-    image: '/icons/funding.png'
-  },
-  'presentations': {
-    title: 'Presentations',
-    description: "Support for creating and refining academic and professional presentations. I help organize content, develop clear narratives, and ensure your message resonates with your intended audience effectively. Whether you're preparing conference presentations, thesis defenses, or professional pitches, I assist with structuring your content, crafting engaging narratives, and developing compelling visual storytelling. Together, we'll create presentations that inform, persuade, and inspire.",
-    image: '/icons/presentation.png'
-  },
-  'job-applications': {
-    title: 'Job Applications',
-    description: 'Professional assistance with CVs, cover letters, and job application materials. I help you present your qualifications compellingly and tailor your applications to specific opportunities and requirements. From highlighting relevant experience to crafting persuasive cover letters that showcase your unique value, I provide comprehensive support throughout your job search. My goal is to help you stand out in competitive job markets and secure interviews that lead to opportunities.',
-    image: '/icons/job.png'
-  }
-};
-  return Object.keys(servicesData).map((id) => ({
-    params: { id },
-    props: { service: servicesData[id] },
-  }));
+    'college-applications': {
+      title: 'College Applications',
+      description: "Expert guidance for college application essays and personal statements.",
+      image: '/icons/application.png'
+    },
+    'funding': {
+      title: 'Apply for Funding',
+      description: "Comprehensive support for scholarship applications and funding opportunities.",
+      image: '/icons/funding.png'
+    },
+    'writing-assignments': {
+      title: 'Writing Assignments',
+      description: 'Professional writing and editing assistance for academic assignments.',
+      image: '/icons/assignment.png'
+    },
+    'research-paper-editing': {
+      title: 'Research Paper Editing',
+      description: 'Professional editing services for academic papers, journals, and research publications.',
+      image: '/icons/edit.png'
+    },
+    'funding-proposals': {
+      title: 'Funding Proposals',
+      description: 'Strategic assistance for research funding proposals and grant applications.',
+      image: '/icons/funding.png'
+    },
+    'presentations': {
+      title: 'Presentations',
+      description: "Support for creating and refining academic and professional presentations.",
+      image: '/icons/presentation.png'
+    },
+    'job-applications': {
+      title: 'Job Applications',
+      description: 'Professional assistance with CVs, cover letters, and job application materials.',
+      image: '/icons/job.png'
+    }
+  };
+
+  const contentDir = path.join(process.cwd(), 'src', 'content', 'services')
+  const markdownFiles = fs.readdirSync(contentDir).filter((file: string) => file.endsWith('.md'))
+  
+  return markdownFiles.map((file: string) => {
+    const id = file.replace('.md', '')
+    const filePath = path.join(contentDir, file)
+    const markdownContent = fs.readFileSync(filePath, 'utf-8')
+    
+    
+    const htmlContent = marked.parse(markdownContent)
+    
+    return {
+      params: { id },
+      props: { 
+        service: servicesData[id],
+        htmlContent
+      },
+    }
+  })
 }
 
-// Get the service data from props
-const { service } = Astro.props;
+// Get the service data and HTML content from props
+const { service, htmlContent } = Astro.props
 ---
 
 <Layout title={service.title}>
   <div class='px-4 lg:px-12 py-12 max-w-4xl mx-auto'>
     <div class='mb-8'>
-      <a href='/services' class='text-sky-600 hover:text-sky-800 hover:underline'>
+      <a href='/services' class='text-sky-600 hover:text-sky-800 hover:underline transition-colors duration-300'>
         ← Back to Services
       </a>
     </div>
     
-    <div class='flex flex-col md:flex-row gap-8 items-center md:items-start'>
-      <img 
-        src={service.image} 
-        alt={service.title} 
-        class='w-32 h-32 object-contain'
-      />
-      <div class='flex-1'>
-        <h1 class='text-4xl font-bold text-slate-700 mb-4'>{service.title}</h1>
-        <p class='text-lg text-gray-600 leading-relaxed'>{service.description}</p>
-      </div>
+    <div class='mb-8'>
+      <h1 class='text-4xl font-bold text-slate-700 mb-4'>{service.title}</h1>
+      <p class='text-lg text-slate-600 leading-relaxed'>{service.description}</p>
     </div>
+    
+    <!-- Render markdown content as HTML -->
+    <article 
+      class='markdown-content'
+      set:html={htmlContent}
+    />
   </div>
 </Layout>
 
+<style is:global>
+  .markdown-content {
+    color: rgb(71 85 105);
+    line-height: 1.625;
+  }
+  
+  .markdown-content h1 {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+    color: rgb(30 41 59);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .markdown-content h2 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 700;
+    color: rgb(30 41 59);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .markdown-content h3 {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    color: rgb(30 41 59);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .markdown-content h4,
+  .markdown-content h5,
+  .markdown-content h6 {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    color: rgb(30 41 59);
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .markdown-content p {
+    margin-bottom: 1rem;
+    color: rgb(71 85 105);
+    line-height: 1.625;
+  }
+  
+  .markdown-content ul,
+  .markdown-content ol {
+    margin-bottom: 1rem;
+    margin-left: 1.5rem;
+    padding-left: 1.5rem;
+  }
+  
+  .markdown-content ul {
+    list-style-type: disc;
+    list-style-position: outside;
+  }
+  
+  .markdown-content ol {
+    list-style-type: decimal;
+    list-style-position: outside;
+  }
+  
+  .markdown-content li {
+    color: rgb(71 85 105);
+    line-height: 1.625;
+    margin-top: 0.5rem;
+    padding-left: 0.5rem;
+  }
+  
+  .markdown-content li > p {
+    margin-bottom: 0.5rem;
+  }
+  
+  .markdown-content strong {
+    font-weight: 700;
+    color: rgb(30 41 59);
+  }
+  
+  .markdown-content em {
+    font-style: italic;
+  }
+  
+  .markdown-content a {
+    color: rgb(2 132 199);
+    transition: color 0.3s;
+  }
+  
+  .markdown-content a:hover {
+    color: rgb(7 89 133);
+    text-decoration: underline;
+  }
+  
+  .markdown-content code {
+    background-color: rgb(241 245 249);
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    color: rgb(30 41 59);
+  }
+  
+  .markdown-content pre {
+    background-color: rgb(241 245 249);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+  
+  .markdown-content pre code {
+    background-color: transparent;
+    padding: 0;
+  }
+  
+  .markdown-content blockquote {
+    border-left: 4px solid rgb(2, 132, 199);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    font-style: italic;
+    color: rgb(71, 85, 105);
+    margin: 1.5rem 0;
+    background-color: #e2e8f0;
+    border-radius: 0.25rem;
+    display: block;
+  }
+  
+  .markdown-content blockquote p {
+    margin-bottom: 0.75rem;
+  }
+  
+  .markdown-content blockquote p:last-child {
+    margin-bottom: 0;
+  }
+  
+  .markdown-content blockquote ul,
+  .markdown-content blockquote ol {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .markdown-content blockquote strong {
+    color: rgb(30 41 59);
+    font-weight: 600;
+  }
+  
+  .markdown-content hr {
+    border-top: 1px solid rgb(203 213 225);
+    margin: 2rem 0;
+  }
+</style>

@@ -1,0 +1,40 @@
+---
+interface Props {
+  title: string;
+  items: Array<{
+    question: string;
+    answer: string;
+    id: string;
+  }>;
+}
+
+const { title, items } = Astro.props;
+---
+
+<h3 class='text-xl font-bold text-center text-slate-700'>{title}</h3>
+<div class='border-b border-gray-200 mb-6 mt-2 w-30 mx-auto'></div>
+<div class='max-w-3xl mx-auto space-y-4'>
+  {items.map((item) => (
+    <div class='border-b border-gray-200 pb-4'>
+      <div class='flex items-center gap-x-4'>
+        <button
+          class='flex items-center justify-center w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 active:bg-slate-400 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2'
+          data-target={item.id}>
+          <img
+            src='/icons/plus.png'
+            alt='toggle answer'
+            class='w-5 h-5 toggle-icon'
+            data-icon-id={item.id}
+          />
+        </button>
+        <p class='text-slate-700 font-semibold'>{item.question}</p>
+      </div>
+      <div
+        id={item.id}
+        class='hidden mt-2 ml-12 text-slate-600'
+        set:html={item.answer}
+      />
+    </div>
+  ))}
+</div>
+

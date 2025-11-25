@@ -1,18 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro'
 import Header from '../components/Header.astro'
+import Hero from '@components/Hero.astro'
 import '../styles/global.css'
 ---
 
 <Layout title='About'>
-  <div id='image-container' data-dark-section class='relative block w-full max-h-[500px] overflow-hidden'>
-    <img src='/images/about-page-cover.jpg' alt='About page Cover Image' class='w-full h-auto object-cover' />
-    <div
-      id='overlay'
-      class='absolute top-0 left-0 w-full h-full items-center flex justify-center bg-black/80'
-    >
-      <h1 class='items-center font-bold text-4xl text-slate-300'>ABOUT</h1>
-    </div>
+  <Hero title='About' image='/images/about-page-cover.jpg' alt='About page Cover Image' />
   </div>
   <section id='about-content' class='md:flex w-full px-4 lg:px-12 py-12'>
     <div id='about-illustration' class='md:w-1/2 my-8 md:my-0 flex items-center justify-center'>
