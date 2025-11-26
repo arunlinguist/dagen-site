@@ -1,6 +1,7 @@
 ---
 import Header from '@components/Header.astro'
 import Footer from '@components/Footer.astro'
+import AOSInit from '@components/AOSInit.jsx'
 const { title = 'Arun' } = Astro.props
 ---
 
@@ -24,6 +25,7 @@ const { title = 'Arun' } = Astro.props
     <title>{title}</title>
   </head>
   <body>
+    <AOSInit client:only="react" />
     <Header />
     <slot />
     <Footer />

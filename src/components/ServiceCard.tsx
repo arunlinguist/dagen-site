@@ -4,16 +4,21 @@ type Props = {
   image: string;
   title: string;
   description: string;
-  id?: string; 
+  id?: string;
+  animation?: string;
+  delay?: number;
 }
 
-const ServiceCard = ({ image, title, description, id }: Props) => {
+const ServiceCard = ({ image, title, description, id, animation = 'fade-up', delay }: Props) => {
   const serviceUrl = id ? `/services/${id}` : '#';
   
   return (
     <a 
       href={serviceUrl}
       className="rounded-sm shadow p-2 bg-linear-to-r from-cyan-500 to-blue-500 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(50%-0.5rem)] xl:w-64 max-w-md block hover:shadow-lg transition-all duration-500 hover:scale-105"
+      data-aos={animation}
+      data-aos-duration="1000"
+      {...(delay !== undefined && { 'data-aos-delay': delay })}
     >  
         <img src={image} alt={title} className="h-20 w-20 mx-auto mt-4" />
         <h3 className="text-lg font-bold text-white text-center my-4">{title}</h3>
