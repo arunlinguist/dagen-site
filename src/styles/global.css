@@ -4,3 +4,43 @@
   font-weight: 400;
   font-style: normal;
 }
+
+@view-transition {
+  navigation:auto;
+}
+
+
+@keyframes blur-out {
+  from {
+    filter: blur(0px);
+    opacity: 1;
+  }
+  to {
+    filter: blur(10px);
+    opacity: 0;
+  }
+}
+
+@keyframes blur-in {
+  from {
+    filter: blur(10px);
+    opacity: 0;
+  }
+  to {
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+/* Apply the custom animation to the old and new page states */
+::view-transition-old(root) {
+  animation: 500ms ease-in both blur-out;
+}
+
+::view-transition-new(root) {
+  animation: 300ms ease-out both blur-in;
+}
+
+html {
+  scroll-behavior: smooth;
+}

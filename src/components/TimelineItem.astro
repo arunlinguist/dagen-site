@@ -1,0 +1,41 @@
+---
+type Props = {
+  year: string
+  description: string
+  image: {
+    src: string
+    alt: string
+  }
+}
+const { year, description, image } = Astro.props as Props
+---
+
+<div class='flex flex-col sm:flex-row shadow-lg max-w-full sm:max-w-120 bg-linear-to-r from-slate-50 to-slate-200 overflow-hidden hover:scale-105 transition-transform duration-300' data-aos="fade-left">
+  <div class='p-5 sm:p-6 flex-1 text-center sm:text-left'>
+    <h3 class='text-base sm:text-lg text-sky-700 font-bold mb-2 tracking-tight'>{year}</h3>
+    <p class='text-xs sm:text-sm text-slate-700 leading-relaxed font-normal'>
+      {description}
+    </p>
+  </div>
+  <div class="grow-0 basis-auto sm:basis-[100px] w-full sm:w-auto h-48 sm:h-auto">
+    <img src={image.src} alt={image.alt} class='w-full sm:w-[100px] h-full object-cover' />
+  </div>
+</div>
+
+<style>
+  [data-timeline-item] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Disable animations on small screens */
+  @media (max-width: 640px) {
+    [data-aos] {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
+  }
+</style>

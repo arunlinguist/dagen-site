@@ -125,7 +125,7 @@ const Contact = (props: Props) => {
       ></textarea>
       <button
         type="submit"
-        className={`bg-slate-700 text-white p-2 hover:bg-sky-800 transition-all duration-200 cursor-pointer hover:my-2 hover:scale-y-105 disabled:opacity-50 disabled:cursor-not-allowed ${clicked ? "scale-x-97" : ""}`}
+        className={`bg-slate-700 text-white p-2 hover:bg-sky-800 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${clicked ? "scale-x-97" : ""}`}
         onClick={() => {
           setIsClicked(true);
           }}

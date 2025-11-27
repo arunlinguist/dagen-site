@@ -4,6 +4,8 @@ import Layout from '../layouts/Layout.astro'
 import Header from '../components/Header.astro'
 import '../styles/global.css'
 import Testimonials from '@components/Testimonials.astro'
+import TimelineItem from '@components/TimelineItem.astro'
+import { timelineItems } from '../content/data/timeline'
 ---
 
 <Layout title='Arun'>
@@ -30,7 +32,7 @@ import Testimonials from '@components/Testimonials.astro'
       their ideas clearly and refine their writing while staying true to their
       unique voice. Learn more about what I do
       <a
-        href='https://www.notion.so/Services-29b4cc2bd87e80b6bc30c5cf408370d5?pvs=21'
+        href='/services#services-title'
         class='text-sky-600 hover:text-sky-400 hover:underline'
       >
         here
@@ -38,4 +40,182 @@ import Testimonials from '@components/Testimonials.astro'
     </p>
   </section>
   <Testimonials />
+  <section class="px-4 py-8 md:py-12 bg-linear-to-br from-white via-sky-50 to-white">
+    <div>
+    <h2 class='text-3xl font-semibold text-slate-700 text-center mb-12' data-aos="fade-up" data-aos-mobile="false">My Journey</h2>
+    <div class='flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8'>
+      <div class='hidden sm:flex flex-col items-center justify-center timeline-line-container'>
+        {timelineItems.slice(0, -1).map((_, index) => (
+          <>
+            <div 
+              class='rounded-full size-5 bg-sky-600 timeline-dot' 
+              data-aos="zoom-in"
+              data-aos-delay={index * 100}
+            ></div>
+            <div 
+              class='w-[3px] h-[150px] bg-sky-600 timeline-line' 
+              data-aos="fade"
+              data-aos-delay={index * 200 + 100}
+            ></div>
+          </>
+        ))}
+        <div 
+          class='rounded-full size-5 bg-sky-600 timeline-dot' 
+          data-aos="zoom-in"
+          data-aos-delay={(timelineItems.length - 1) * 200}
+        ></div>
+      </div>
+      
+      {/* Timeline items */}
+      <div class='flex flex-col items-center sm:items-start justify-center gap-4 w-full sm:w-auto'>
+        {timelineItems.map((item, index) => (
+          <div class="w-full sm:w-auto timeline-item-wrapper" data-aos="fade-left" data-aos-delay={index * 200}>
+            <TimelineItem
+              year={item.year}
+              description={item.description}
+              image={item.image}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  /* Timeline line grow animation - Vertical (Desktop) */
+  .timeline-line {
+    transform-origin: top;
+    transform: scaleY(0);
+    opacity: 1;
+  }
+
+  .timeline-line.aos-animate {
+    animation: growLineVertical 0.8s ease-out forwards;
+  }
+  
+  /* Show timeline lines by default if AOS is not initialized */
+  .timeline-line:not(.aos-init) {
+    transform: scaleY(1);
+  }
+  
+  @keyframes growLineVertical {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+
+  .timeline-dot {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  .timeline-dot.aos-animate {
+    animation: zoomInDot 0.5s ease-out forwards;
+  }
+  
+  /* Show timeline dots by default if AOS is not initialized */
+  .timeline-dot:not(.aos-init) {
+    opacity: 1;
+    transform: scale(1);
+  }
+  
+  @keyframes zoomInDot {
+    from {
+      opacity: 0;
+      transform: scale(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* Show timeline items and testimonials by default if AOS is not initialized */
+  [data-aos]:not(.aos-init) {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  
+  /* Fallback: Show all AOS elements after page load if they're still hidden */
+  @keyframes showFallback {
+    to {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+  
+  /* After 1 second, if elements still aren't visible, show them */
+  [data-aos]:not(.aos-animate) {
+    animation: showFallback 0s 1s forwards;
+  }
+  
+  [data-aos].aos-animate {
+    animation: none;
+  }
+
+
+  /* Respect user's motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    
+    [data-aos] {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
+    
+    .timeline-dot {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+    }
+    
+    .timeline-line {
+      transform: scaleY(1) !important;
+    }
+    
+    .timeline-item-wrapper {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .timeline-line-container {
+      display: none;
+    }
+    
+    /* Disable animations on small screens */
+    [data-aos] {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
+    
+    .timeline-dot {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+    }
+    
+    .timeline-line {
+      transform: scaleY(1) !important;
+    }
+    
+    .timeline-item-wrapper {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style>
