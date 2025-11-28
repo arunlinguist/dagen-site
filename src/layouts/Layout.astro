@@ -25,7 +25,7 @@ const { title = 'Arun' } = Astro.props
     <title>{title}</title>
   </head>
   <body>
-    <AOSInit client:only="react" />
+    <AOSInit client:load />
     <Header />
     <slot />
     <Footer />

@@ -32,7 +32,7 @@
   }
 }
 
-/* Apply the custom animation to the old and new page states */
+
 ::view-transition-old(root) {
   animation: 500ms ease-in both blur-out;
 }

@@ -1,0 +1,16 @@
+---
+type Props = {
+  value: string
+  description: string
+}
+const { value, description } = Astro.props as Props
+---
+
+<div
+  class='relative mt-4 rounded-2xl bg-[radial-gradient(circle_at_top_left,#1d2538,#020617)] py-4 px-4 hover:ring-2 ring-1 ring-sky-400 min-w-[15em] max-md:w-full overflow-hidden before:content-[""] before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_top,rgba(56,189,248,0.25),transparent)] before:opacity-0 before:transition-opacity before:duration-300 before:ease-in-out hover:before:opacity-100'
+>
+  <h4 class='text-xl font-semibold text-white mb-2'>{value}</h4>
+  <small class='text-slate-300 text-sm uppercase tracking-wide font-normal'
+    >{description}</small
+  >
+</div>
