@@ -105,14 +105,14 @@ const Contact = (props: Props) => {
           name="name"
           placeholder="Your Name"
           className="p-2 border border-gray-300 w-full md:w-1/2 mb-2 sm:mb-0 focus:ring focus:ring-slate-400 focus:ring-inset focus:outline-none"
-          
+          required
         />
         <input
           type="email"
           name="email"
           placeholder="Your Email"
           className="w-full md:w-1/2 p-2 border border-gray-300 focus:ring focus:ring-slate-400 focus:ring-inset focus:outline-none"
-          
+          required
         />
       </div>
 
@@ -121,7 +121,7 @@ const Contact = (props: Props) => {
         placeholder="Your Message"
         rows={5}
         className="p-2 border border-gray-300 focus:ring focus:ring-slate-400 focus:ring-inset focus:outline-none"
-        
+        required
       ></textarea>
       <button
         type="submit"
