@@ -1,4 +1,9 @@
 @import "tailwindcss";
+
+html, :host{
+  text-size-adjust: 100%;
+}
+
 .cursive {
   font-family: "Momo Signature", cursive;
   font-weight: 400;
