@@ -1,7 +1,7 @@
 export const timelineItems = [
   {
     year: '2019',
-    description: 'Graduated from ambedkar university and took a gap year to explore Theatre',
+    description: 'Graduated from Ambedkar University and took a gap year to explore theatre',
     image: {
       src: '/images/about-illustration.jpg',
       alt: 'Ambedkar University',
@@ -9,7 +9,7 @@ export const timelineItems = [
   },
   {
     year: '2020',
-    description: 'Got in to SOAS University of London and deferred due to lack of funding.',
+    description: 'Got into SOAS University of London and deferred due to lack of funding.',
     image: {
       src: '/images/about-page-cover.jpg',
       alt: 'SOAS University',

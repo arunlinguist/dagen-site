@@ -7,22 +7,23 @@ type Props = {
   id?: string;
   animation?: string;
   delay?: number;
+  gradient_type?: "yellow" | "blue";
 }
 
-const ServiceCard = ({ image, title, description, id, animation = 'fade-up', delay }: Props) => {
+const ServiceCard = ({ image, title, description, id, animation = 'fade-up', delay, gradient_type = 'blue' }: Props) => {
   const serviceUrl = id ? `/services/${id}` : '#';
   
   return (
     <a 
       href={serviceUrl}
-      className="rounded-sm shadow p-2 bg-linear-to-r from-cyan-500 to-blue-500 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(50%-0.5rem)] xl:w-64 max-w-md block hover:shadow-lg transition-all duration-500 hover:scale-105"
+      className={`rounded-sm shadow p-2 ${gradient_type === 'yellow' ? 'bg-linear-to-br from-yellow-500 to-red-400' : 'bg-linear-to-br from-cyan-500 to-blue-500'} w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(50%-0.5rem)] xl:w-64 max-w-md block hover:shadow-lg transition-all duration-500 hover:scale-105`}
       data-aos={animation}
       data-aos-duration="1000"
       {...(delay !== undefined && { 'data-aos-delay': delay })}
     >  
         <img src={image} alt={title} className="h-20 w-20 mx-auto mt-4" />
         <h3 className="text-lg font-bold text-white text-center my-4">{title}</h3>
-      <p className="text-gray-200 text-center text-xs leading-relaxed">{description}</p>
+      <p className="text-white text-center text-xs leading-relaxed">{description}</p>
       <div className="mx-auto block my-2 bg-white text-cyan-500 px-4 py-2 rounded-md text-xs font-bold mt-4 text-center w-fit">Learn More</div>
     </a>
   )

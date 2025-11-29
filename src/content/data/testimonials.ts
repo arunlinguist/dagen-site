@@ -16,7 +16,7 @@ const testimonials = [
   {
     name: 'Author',
     role: 'MDPI',
-    image: '/images/arun.webp',
+    image: '/images/boy.png',
     feedback:
       'We sincerely thank [Arun] for significantly improving the quality of our manuscript, which greatly contributed to its acceptance.',
   },
