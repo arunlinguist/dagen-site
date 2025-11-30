@@ -9,9 +9,59 @@ const { title = 'Arun' } = Astro.props
 <html lang='en'>
   <head>
     <meta charset='UTF-8' />
-    <meta name='viewport' content='width=device-width' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <link rel='canonical' href='https://arunrams.netlify.app' />
     <link rel='icon' type='image/png' href='/images/circular-arun.png' />
     <meta name='generator' content={Astro.generator} />
+    <meta
+      name='description'
+      content='Professional academic writing and editing services by Arun. Specialising in manuscript editing, PhD proposal support, qualitative research guidance, and personalised tutoring backed by years of academic experience.'
+    />
+    <meta name='theme-color' content='#ffffff' />
+    <meta name='robots' content='index, follow' />
+
+    <!-- Open Graph (Facebook, LinkedIn, many messengers) -->
+    <meta property='og:type' content='website' />
+    <meta property='og:url' content='https://arunrams.netlify.app' />
+    <meta
+      property='og:site_name'
+      content="Arun's Writing and Editing Services"
+    />
+    <meta
+      property='og:title'
+      content='Arun — Writing, Editing & Applied Linguistics'
+    />
+    <meta
+      property='og:description'
+      content='Professional academic writing and editing services: manuscript editing, PhD proposal support, qualitative research guidance, and personalised tutoring.'
+    />
+    <meta
+      property='og:image'
+      content='https://arunrams.netlify.app/images/arun.webp'
+    />
+    <meta property='og:image:width' content='1200' />
+    <meta property='og:image:height' content='630' />
+    <meta property='og:locale' content='en_IN' />
+
+    <!-- Twitter / X Cards -->
+    <meta name='twitter:card' content='summary_large_image' />
+    <meta
+      name='twitter:title'
+      content='Arun — Writing, Editing & Applied Linguistics'
+    />
+    <meta
+      name='twitter:description'
+      content='Professional academic writing and editing services: manuscript editing, PhD proposal support, qualitative research guidance, and personalised tutoring.'
+    />
+    <meta
+      name='twitter:image'
+      content='https://arunrams.netlify.app/images/arun.webp'
+    />
+    <meta
+      name='twitter:image:alt'
+      content='Arun — academic editor and applied linguist'
+    />
+
     <link rel='preconnect' href='https://fonts.googleapis.com' />
     <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
     <link
@@ -22,10 +72,21 @@ const { title = 'Arun' } = Astro.props
       href='https://fonts.googleapis.com/css2?family=Momo+Signature&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'
       rel='stylesheet'
     />
+    <script type='application/ld+json'>
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Arun",
+        "url": "https://arunrams.netlify.app",
+        "jobTitle": "Academic Editor and Applied Linguist",
+        "description": "Professional academic writing and editing services: manuscript editing, PhD proposal support, qualitative research guidance, and personalised tutoring."
+      }
+    </script>
+
     <title>{title}</title>
   </head>
   <body>
-    <AOSInit client:only="react" />
+    <AOSInit client:only='react' />
     <Header />
     <slot />
     <Footer />
