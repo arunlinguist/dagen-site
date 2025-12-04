@@ -7,8 +7,7 @@ import '../styles/global.css'
 const faqItems = [
   {
     question: 'What do your charges look like?',
-    answer:
-      '<p>My pricing varies depending on the type and scope of work. I offer competitive rates for editing, writing coaching, and consultation services. For detailed pricing information, please contact me directly.</p>',
+    answer:'I charge for my editing based on a number of factors:<br><ul><li>- the type of editing you require (proofreading, reviewing, formatting)</li><li>- how extensive the editing is</li><li>- how quickly you need me to finish the edit</li><li>- the word count of your manuscript.</li></ul><br>In general, editing services online tend to be quite expensive, especially since the larger ones charge clients in dollars. Currently, my services are going to be much cheaper regardless of which country you are from. To get an estimate of how much I will charge, you can send me a query.',
     id: 'answer1',
   },
   {
@@ -94,13 +93,13 @@ const faqItems = [
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const buttons = document.querySelectorAll('button[data-target]')
+    const buttons = document.querySelectorAll('button[data-target]') as NodeListOf<HTMLElement>
 
-    buttons.forEach(button => {
+    buttons.forEach((button: HTMLElement) => {
       button.addEventListener('click', function () {
-        const targetId = this.getAttribute('data-target')
+        const targetId = (this as HTMLElement).getAttribute('data-target')!
         const answerDiv = document.getElementById(targetId)
-        const icon = this.querySelector('.toggle-icon')
+        const icon = (this as HTMLElement).querySelector('.toggle-icon') as HTMLElement
 
         if (answerDiv && icon) {
           const isHidden = answerDiv.classList.contains('hidden')
