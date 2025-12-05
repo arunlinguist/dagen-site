@@ -3,7 +3,7 @@ import testimonials from '../content/data/testimonials'
 
 // Truncation helpers
 const MAX_CHARS = 260
-function truncateAtWord(text, limit = MAX_CHARS) {
+function truncateAtWord(text: string, limit = MAX_CHARS) {
   if (!text || typeof text !== 'string')
     return { short: text, truncated: false }
   if (text.length <= limit) return { short: text, truncated: false }
@@ -26,52 +26,74 @@ const items = testimonials.map(t => {
     <h2 class='text-3xl font-semibold text-slate-700 text-center mb-12'>
       Testimonials
     </h2>
-    <div class='grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-      {
-        items.map((testimonial, idx) => (
-          <div class='bg-white p-6 shadow hover:shadow-lg transition-shadow duration-300' data-aos="fade" data-aos-duration="1000">
-            <div class='flex items-center mb-4'>
-              <img
-                src={testimonial.image}
-                alt={testimonial.name}
-                class='w-16 h-16 rounded-full mr-4 object-cover'
-              />
-              <div>
-                <h3 class='text-xl font-semibold text-slate-700'>
-                  {testimonial.name}
-                </h3>
-                <p class='text-xs text-slate-500'>{testimonial.role}</p>
+    <div class='relative'>
+      <button
+        id='testimonial-scroll-left'
+        class='absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow duration-300 opacity-0 pointer-events-none'
+        aria-label='Scroll left'
+        type='button'>
+        <svg class='w-6 h-6 text-slate-700' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+          <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 19l-7-7 7-7' />
+        </svg>
+      </button>
+      <div
+        id='testimonials-container'
+        class='flex gap-8 overflow-x-auto scroll-smooth scrollbar-hide pb-4 px-12'
+        style='scrollbar-width: none; -ms-overflow-style: none;'>
+        {
+          items.map((testimonial, idx) => (
+            <div class='bg-white p-6 shadow hover:shadow-lg transition-shadow duration-300 shrink-0 w-full sm:w-96' data-aos="fade" data-aos-duration="1000">
+              <div class='flex items-center mb-4'>
+                <img
+                  src={testimonial.image}
+                  alt={testimonial.name}
+                  class='w-16 h-16 rounded-full mr-4 object-cover'
+                />
+                <div>
+                  <h3 class='text-xl font-semibold text-slate-700'>
+                    {testimonial.name}
+                  </h3>
+                  <p class='text-xs text-slate-500'>{testimonial.role}</p>
+                </div>
               </div>
+              <div class='text-slate-600 italic relative'>
+                <div
+                  id={`short-${idx}`}
+                  class='testimonial-short transition-all duration-300 ease-in-out'>
+                  <span class='block'>" {testimonial.shortFeedback} "</span>
+                </div>
+                <div
+                  id={`full-${idx}`}
+                  class='testimonial-full overflow-hidden transition-all duration-300 ease-in-out hidden'
+                  style='max-height:0'>
+                  <span class='block opacity-0 transition-opacity duration-300'>
+                    " {testimonial.feedback} "
+                  </span>
+                </div>
+              </div>
+              {testimonial.truncated && (
+                <button
+                  class='mt-3 text-sky-700 text-sm font-medium hover:underline focus:outline-none'
+                  data-idx={idx}
+                  aria-expanded='false'
+                  aria-controls={`short-${idx} full-${idx}`}
+                  type='button'>
+                  Read more
+                </button>
+              )}
             </div>
-            <div class='text-slate-600 italic relative'>
-              <div
-                id={`short-${idx}`}
-                class='testimonial-short overflow-hidden transition-all duration-300 ease-in-out'
-                style='max-height:6rem'>
-                <span class='block'>“ {testimonial.shortFeedback} ”</span>
-              </div>
-              <div
-                id={`full-${idx}`}
-                class='testimonial-full overflow-hidden transition-all duration-300 ease-in-out hidden'
-                style='max-height:0'>
-                <span class='block opacity-0 transition-opacity duration-300'>
-                  “ {testimonial.feedback} ”
-                </span>
-              </div>
-            </div>
-            {testimonial.truncated && (
-              <button
-                class='mt-3 text-sky-700 text-sm font-medium hover:underline focus:outline-none'
-                data-idx={idx}
-                aria-expanded='false'
-                aria-controls={`short-${idx} full-${idx}`}
-                type='button'>
-                Read more
-              </button>
-            )}
-          </div>
-        ))
-      }
+          ))
+        }
+      </div>
+      <button
+        id='testimonial-scroll-right'
+        class='absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-3 shadow-lg hover:shadow-xl transition-shadow duration-300'
+        aria-label='Scroll right'
+        type='button'>
+        <svg class='w-6 h-6 text-slate-700' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+          <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 5l7 7-7 7' />
+        </svg>
+      </button>
     </div>
   </div>
 </section>
@@ -79,16 +101,49 @@ const items = testimonials.map(t => {
 <script is:inline>
   document.addEventListener('DOMContentLoaded', () => {
     const buttons = document.querySelectorAll('button[data-idx]')
+    const container = document.getElementById('testimonials-container')
+    const scrollLeftBtn = document.getElementById('testimonial-scroll-left')
+    const scrollRightBtn = document.getElementById('testimonial-scroll-right')
 
-    // Initialize collapsed heights for truncated items
-    buttons.forEach(btn => {
-      const idx = btn.getAttribute('data-idx')
-      const shortWrap = document.getElementById(`short-${idx}`)
-      if (shortWrap) {
-        const shortSpan = shortWrap.querySelector('span')
-        if (shortSpan) {
-          shortWrap.style.maxHeight = shortSpan.scrollHeight + 'px'
-        }
+    // Scroll functionality
+    function updateScrollButtons() {
+      if (!container || !scrollLeftBtn || !scrollRightBtn) return
+      
+      const { scrollLeft, scrollWidth, clientWidth } = container
+      const isAtStart = scrollLeft === 0
+      const isAtEnd = scrollLeft + clientWidth >= scrollWidth - 1
+
+      scrollLeftBtn.style.opacity = isAtStart ? '0' : '1'
+      scrollLeftBtn.style.pointerEvents = isAtStart ? 'none' : 'auto'
+      
+      scrollRightBtn.style.opacity = isAtEnd ? '0' : '1'
+      scrollRightBtn.style.pointerEvents = isAtEnd ? 'none' : 'auto'
+    }
+
+    if (scrollLeftBtn && container) {
+      scrollLeftBtn.addEventListener('click', () => {
+        container.scrollBy({ left: -400, behavior: 'smooth' })
+      })
+    }
+
+    if (scrollRightBtn && container) {
+      scrollRightBtn.addEventListener('click', () => {
+        container.scrollBy({ left: 400, behavior: 'smooth' })
+      })
+    }
+
+    if (container) {
+      container.addEventListener('scroll', updateScrollButtons)
+      updateScrollButtons() // Initial check
+    }
+
+    // Initialize all testimonial text to display properly
+    document.querySelectorAll('.testimonial-short').forEach(wrap => {
+      const span = wrap.querySelector('span')
+      if (span) {
+        // Allow text to flow naturally without height constraints
+        wrap.style.maxHeight = 'none'
+        wrap.style.overflow = 'visible'
       }
     })
     buttons.forEach(btn => {
@@ -113,6 +168,7 @@ const items = testimonials.map(t => {
           shortWrap.style.left = '0'
           shortWrap.style.right = '0'
           shortWrap.style.maxHeight = shortH + 'px'
+          shortWrap.style.overflow = 'hidden'
           if (sSpan) sSpan.classList.remove('opacity-0')
           // 3) Fade out full text and animate full wrap to short height
           fullSpan && fullSpan.classList.add('opacity-0')
@@ -126,9 +182,8 @@ const items = testimonials.map(t => {
             shortWrap.style.position = ''
             shortWrap.style.left = ''
             shortWrap.style.right = ''
-            // Ensure short text remains visible with proper height
-            const sSpan = shortWrap.querySelector('span')
-            shortWrap.style.maxHeight = (sSpan ? sSpan.scrollHeight : 0) + 'px'
+            shortWrap.style.maxHeight = 'none'
+            shortWrap.style.overflow = 'visible'
             btn.setAttribute('aria-expanded', 'false')
             btn.textContent = 'Read more'
           }, 300)
@@ -136,10 +191,12 @@ const items = testimonials.map(t => {
           shortWrap.style.position = 'absolute'
           shortWrap.style.left = '0'
           shortWrap.style.right = '0'
+          shortWrap.style.overflow = 'hidden'
           fullWrap.classList.remove('hidden')
           const shortH = shortSpan ? shortSpan.scrollHeight : 0
           const fullH = fullSpan ? fullSpan.scrollHeight : 0
-          fullWrap.style.maxHeight = shortH + 'px'      
+          fullWrap.style.maxHeight = shortH + 'px'
+          fullWrap.style.overflow = 'hidden'
           shortSpan && shortSpan.classList.add('opacity-0')
           requestAnimationFrame(() => {
             fullWrap.style.maxHeight = fullH + 'px'
@@ -159,3 +216,14 @@ const items = testimonials.map(t => {
     })
   })
 </script>
+
+<style>
+  #testimonials-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

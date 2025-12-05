@@ -20,6 +20,20 @@ const testimonials = [
     feedback:
       'We sincerely thank [Arun] for significantly improving the quality of our manuscript, which greatly contributed to its acceptance.',
   },
+  {
+    name: 'Bharathidasan S.',
+    role: 'Tamil Nadu State Wildlife Board Member',
+    image: '/images/boy.png',
+    feedback:
+      "It is my pleasure to commend Arun's remarkable work in proofreading the translated version of my book on vulture conservation. As the author of the original book, written in Tamil, I encountered some challenges with the initial English translation. Recognizing the need for a bilingual expert, I hired Arun to review and improve the translated content. His contribution was exemplary. He rectified grammatical errors and adeptly rephrased sentences and paragraphs, preserving the original essence and message of the book. His dedication to maintaining the content's integrity while enhancing readability was highly commendable. His bilingual expertise and timely commitment make him an invaluable asset for linguistic projects!",
+  },
+  {
+    name: 'Author',
+    role: 'MDPI',
+    image: '/images/boy.png',
+    feedback:
+      "The English editing significantly improved the manuscript’s clarity, fluency, and professional tone, making it well-aligned with academic journal standards.",
+  }
 ]
 
 export default testimonials
