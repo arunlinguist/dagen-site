@@ -1,7 +1,6 @@
-type Props = {};
 import React, { useEffect } from "react";
 
-const Contact = (props: Props) => {
+const Contact = () => {
   const formRef = React.useRef<HTMLFormElement>(null);
   const [clicked, setIsClicked] = React.useState(false);
   const [submitDisabled, setSubmitDisabled] = React.useState(false);
