@@ -3,7 +3,7 @@ export const timelineItems = [
     year: '2019',
     description: 'Graduated from Ambedkar University and took a gap year to diversify my interests.',
     image: {
-      src: '/images/about-illustration.jpg',
+      src: '/images/timeline1.jpg',
       alt: 'Ambedkar University',
     },
   },
@@ -19,7 +19,7 @@ export const timelineItems = [
     year: '2021',
     description: "Was offered a seat at Oxford and financed it through a mixture of personal loans and crowdfunding.",
     image: {
-      src: '/images/services-header-image.jpg',
+      src: '/images/timeline3.jpg',
       alt: 'Oxford University',
     },
   },
@@ -27,7 +27,7 @@ export const timelineItems = [
     year: '2022',
     description: 'Conducted novel MSc-level research on caste and English in the Indian education system.',
     image: {
-      src: '/images/faq.jpg',
+      src: '/images/timeline4.jpg',
       alt: 'Research',
     },
   },
@@ -35,7 +35,7 @@ export const timelineItems = [
     year: '2023',
     description: 'Explored the British school system as a teaching assistant while also co-authoring two scientific publications.',
     image: {
-      src: '/images/arun.jpg',
+      src: '/images/timeline5.jpg',
       alt: 'Teaching',
     },
   },
@@ -43,7 +43,7 @@ export const timelineItems = [
     year: '2024',
     description: 'Began the process of PhD applications while editing for leading open-access science journals.',
     image: {
-      src: '/images/circular-arun.png',
+      src: '/images/timeline6.png',
       alt: 'Publications',
     },
   },
@@ -51,7 +51,7 @@ export const timelineItems = [
     year: '2025',
     description: 'Set up a mentoring and editing service geared towards students, researchers, and all interested professionals.',
     image: {
-      src: '/images/services-header-image.jpg',
+      src: '/images/timeline7.jpg',
       alt: 'Editing Service',
     },
   },
