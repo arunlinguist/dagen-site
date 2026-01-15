@@ -43,7 +43,7 @@ export const timelineItems = [
     year: '2024',
     description: 'Began the process of PhD applications while editing for leading open-access science journals.',
     image: {
-      src: '/images/timeline6.png',
+      src: '/images/timeline6.jpg',
       alt: 'Publications',
     },
   },
